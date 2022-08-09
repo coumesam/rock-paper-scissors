@@ -1,14 +1,13 @@
 function computerPlay() {
     // randomly select a number between 0 and 100
     let num = Math.floor(Math.random()*100);
-
     // if between 0-33, return "Rock"
-    // if between 34-67, return "Paper"
-    // if between 68-100, return "Scissors"
     if (num <= 33) {
         return "Rock";
+    // if between 34-67, return "Paper"
     } else if (num <= 66) {
         return "Paper";
+    // if between 68-100, return "Scissors"
     } else {
         return "Scissors";
     };
@@ -16,6 +15,7 @@ function computerPlay() {
 
 let playerScore = 0;
 let computerScore = 0;
+let winningPlayer = '';
 let inputAlert = "Please input \"Rock,\" \"Paper,\" or \"Scissors.\"";
 
 function playRound(playerSelection, computerSelection) {
@@ -24,7 +24,6 @@ function playRound(playerSelection, computerSelection) {
             return "It's a tie! Rock and Rock. Try again.";
         } else if (computerSelection === "Paper") {
             computerScore ++;
-            console.log(computerScore)
             return "You lose! Paper covers Rock.";
         } else {
             playerScore ++;
@@ -40,7 +39,7 @@ function playRound(playerSelection, computerSelection) {
             computerScore ++;
             return "You lose! Scissors cut Paper.";
         };
-    } else if (playerSelection.toUpperCase() === "SCISSORS") {
+    } else if (playerSelection.toUpperCase() === "SCISSORS") { 
         if (computerSelection === "Rock") {
             computerScore ++;
             return "You lose! Rock beats Scissors.";
@@ -50,20 +49,44 @@ function playRound(playerSelection, computerSelection) {
         } else {
             return "It's a tie! Scissors and Scissors. Try again.";
         };
-    } else if (playerSelection === "") {
-        alert(inputAlert);
-    } else {
-        alert(inputAlert);
-    }
+    };
 };
 
-function game() {
-    for (let i = 0; i < 5; i++) {
-        playRound(prompt("It's your turn! please provide your choice."), computerPlay());
-        console.log(`The score is: Player - ${playerScore}, Computer - ${computerScore}`);
-    }
+
+const rock = document.getElementById('rock');
+const paper = document.getElementById('paper');
+const scissors = document.getElementById('scissors');
+const score = document.getElementById('score');
+const remark = document.getElementById('remark');
+
+function showScore() {
+    score.textContent = `The score is: Player  ${playerScore}, Computer  ${computerScore}`;
 }
 
-// const playerSelection = "rock";
-// const computerSelection = computerPlay();
-// console.log(playRound(playerSelection, computerSelection));
+if (playerScore > computerScore) {
+    winningPlayer = 'you';
+} else {
+    winningPlayer = 'the computer';
+}
+
+function selection() {
+    if (playerScore != 5 && computerScore != 5) {
+        remark.textContent = `${playRound(this.textContent, computerPlay())}`;
+    } else {
+        remark.textContent = `The winner is ${winningPlayer}!`;
+    };
+    showScore();
+}
+
+if (playerScore != 5 && computerScore != 5) {
+    rock.addEventListener('click', selection);
+    paper.addEventListener('click', selection);
+    scissors.addEventListener('click', selection);
+};
+
+// function game() {
+//     for (let i = 0; i < 5; i++) {
+//         playRound(prompt("It's your turn! please provide your choice."), computerPlay());
+//         console.log(`The score is: Player - ${playerScore}, Computer - ${computerScore}`);
+//     }
+// }
